@@ -1,6 +1,6 @@
 
 from random import randint
-import libmineshaft.classes as classes
+import libmineshaft.world as world
 import sys, json
 
 def loadWorldFile(path):
@@ -33,7 +33,7 @@ def loadWorldFromMap():
         y += 1
 
 def generateBlankWorld():
-    world = classes.World()
+    world = world.World()
     world_list = list()
     for chunk in range(0, 16):
 
