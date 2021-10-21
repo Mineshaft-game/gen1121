@@ -13,7 +13,7 @@ def loadWorldFile(path):
     level = levelFile["map"]
     playerPos = levelFile["player"]
     tileSize = levelFile["tilesize"]
-    return level, playerPos tileSize
+    return level, playerPos, tileSize
 
 
 def loadWorldFromMap():
