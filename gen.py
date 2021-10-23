@@ -1,4 +1,3 @@
-
 from random import randint
 import libmineshaft.world as world
 import sys
@@ -29,10 +28,11 @@ def loadWorldFromMap():
             # One way to prevent that would be to chunkify the worlds as appears to be happening in generateWorld()
             # Lastly it should be noted that checking every block in a seprate if statement every frame will get performance intensive once your block list gets long
             # A good way to optimize would be to use structural pattern matching, but that's not implemented currently as the project doesnt seem to be targetting python 3.10
-            if tile != '0':
+            if tile != "0":
                 # This appends a pygame rect t the tile_rects list, this can then be tested against every frame to detect collisions.
-                tile_rects.append(pygame.Rect(
-                    x * tileSize, y * tileSize, tileSize, tileSize))
+                tile_rects.append(
+                    pygame.Rect(x * tileSize, y * tileSize, tileSize, tileSize)
+                )
             x += 1
         y += 1
 
