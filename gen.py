@@ -1,7 +1,9 @@
 from random import randint
-import libmineshaft.world as world
+from libmineshaft.world import *
+import libmineshaft.blocks
 import sys
 import json
+import pygame
 
 
 def loadWorldFile(path):
@@ -38,7 +40,7 @@ def loadWorldFromMap():
 
 
 def generateBlankWorld():
-    world = world.World()
+    world = libmineshaft.world.World()
     world_list = list()
     for chunk in range(0, 16):
 
@@ -57,9 +59,9 @@ def generateWorld(biome):
         for y in range(0, 128):
             for x in range(0, 16):
                 if y < 14:
-                    world[chunk][y][x] = 0
+                    world[chunk][y][x] = air
                 elif y > 15 and y < 17:
-                    world[chunk][y][x] = 2
+                    world[chunk][y][x] = dirt
                 elif y > 17 and y < 24:
-                    world[chunk][y][x] = 1
+                    world[chunk][y][x] = stone
     return world
