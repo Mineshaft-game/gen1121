@@ -1,6 +1,5 @@
 from random import randint
 from libmineshaft.world import *
-import libmineshaft.blocks
 import sys
 import json
 import pygame
@@ -59,9 +58,9 @@ def generateWorld(biome):
         for y in range(0, 128):
             for x in range(0, 16):
                 if y < 14:
-                    world[chunk][y][x] = air
+                    world[chunk][y][x] = 0
                 elif y > 15 and y < 17:
-                    world[chunk][y][x] = dirt
+                    world[chunk][y][x] = 2
                 elif y > 17 and y < 24:
-                    world[chunk][y][x] = stone
+                    world[chunk][y][x] = 1
     return world
