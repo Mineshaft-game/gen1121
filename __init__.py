@@ -1,8 +1,11 @@
-from random import randint
 from libmineshaft.world import *
-import sys
 import json
 import pygame
+
+__version__ = "unknown"
+__author__ = "LEHAtupointow, Sakurai Mayu and Nobody6502"
+__description__ = "The default world generation engine for the 2D Pygame game Mineshaft."
+
 
 
 def loadWorldFile(path):
@@ -18,6 +21,7 @@ def loadWorldFile(path):
 
 def loadWorldFromMap():
     tile_rects = []
+    
     y = 0
     for row in level:
         x = 0
@@ -39,7 +43,6 @@ def loadWorldFromMap():
 
 
 def generateBlankWorld():
-    world = libmineshaft.world.World()
     world_list = list()
     for chunk in range(0, 16):
 
@@ -49,18 +52,20 @@ def generateBlankWorld():
             world_list[chunk].append(list())
             for x in range(0, 16):
                 world_list[chunk][y].append(0)
-    return world_list
+    
+    world = libmineshaft.world.World(world=world_list)
+    return world
 
 
-def generateWorld(biome):
+def generateWorld():
     world = generateBlankWorld()
     for chunk in range(0, 16):
         for y in range(0, 128):
             for x in range(0, 16):
                 if y < 14:
-                    world[chunk][y][x] = 0
+                    world.world[chunk][y][x] = 0
                 elif y > 15 and y < 17:
-                    world[chunk][y][x] = 2
+                    world.world[chunk][y][x] = 2
                 elif y > 17 and y < 24:
-                    world[chunk][y][x] = 1
+                    world.world[chunk][y][x] = 1
     return world
