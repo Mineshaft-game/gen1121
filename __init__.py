@@ -53,7 +53,7 @@ def generateBlankWorld():
             for x in range(0, 16):
                 world_list[chunk][y].append(0)
     
-    world = libmineshaft.world.World(world=world_list)
+    world = World(world=world_list)
     return world
 
 
