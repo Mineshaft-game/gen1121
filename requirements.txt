@@ -1,1 +1,2 @@
-libmineshaft>=0.1.3
+libmineshaft>=0.1.5
+perlin-noise
