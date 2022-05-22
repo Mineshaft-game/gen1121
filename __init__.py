@@ -1,5 +1,7 @@
 """
 Copyright (C) 2021-2022  Alexey "LEHAtupointow" Pavlov
+Copyright (C) 2021  Sakurai Mayu
+Copyright (C) 2021  Nobody6502
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -62,30 +64,24 @@ def loadWorldFromMap():
         y += 1
 
 
-def generateBlankWorld():
-    world_list = list()
-    for chunk in range(0, 16):
-
-        world_list.append(list())
-        for y in range(0, 128):
-
-            world_list[chunk].append(list())
-            for x in range(0, 16):
-                world_list[chunk][y].append(0)
-    
-    world = World(world=world_list)
+def generateBlankWorld(name: str = "World", gamemode: int = 0,  saves_dir=os.path.join(".mineshaft",  "saves")):
+    world = World(name=name, gamemode=gamemode,  saves_dir=saves_dir)
+    world.database.execute("CREATE TABLE IF NOT EXISTS world(block_id INTEGER NOT NULL, block_data INTEGER NOT NULL, x INTEGER NOT NULL, y INTEGER NOT NULL);")
+    world.save()
     return world
 
-
-def generateWorld():
+def generateSuperflatWorld(name: str = "Superflat World",  gamemode: int = 0,  saves_dir=os.path.join(".mineshaft",  "saves")):
     world = generateBlankWorld()
-    for chunk in range(0, 16):
-        for y in range(0, 128):
-            for x in range(0, 16):
-                if y < 14:
-                    world.world[chunk][y][x] = 0
-                elif y > 15 and y < 17:
-                    world.world[chunk][y][x] = 2
-                elif y > 17 and y < 24:
-                    world.world[chunk][y][x] = 1
+    for y in range(0, 128):
+        for x in range(0, 256):
+            if y < 14:
+                world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (0, 0,x, y))
+            elif y > 15 and y < 17:
+                world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (7, 0,x, y))
+            elif y > 17 and y < 24:
+                world.database.execute("INSERT INTO world(block_id, block_data, x, y VALUES(?,?,?,?)",  (1, 0,x, y))
+    world.save()
     return world
+
+if __name__ == "__main__":
+    generateBlankWorld_new("test.db")
