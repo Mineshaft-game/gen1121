@@ -78,7 +78,7 @@ def generateSuperflatWorld(name: str = "Superflat World",  gamemode: int = 0,  s
                 world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (0, 0,x, y))
             elif y >= 15 and y <= 17:
                 world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (7, 0,x, y))
-            elif y > 17 and y <= 24:
+            elif y > 17:
                 world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (1, 0,x, y))
     world.save()
     return world
