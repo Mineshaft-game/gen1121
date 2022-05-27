@@ -23,6 +23,9 @@ Copyright (C) 2021  Nobody6502
 from libmineshaft.world import *
 import json
 import pygame
+from pynbt import *
+import gzip
+import os
 
 __version__ = "unknown"
 __author__ = "LEHAtupointow, Sakurai Mayu and Nobody6502"
@@ -65,23 +68,44 @@ def loadWorldFromMap():
 
 
 def generateBlankWorld(name: str = "World", gamemode: int = 0,  saves_dir=os.path.join(".mineshaft",  "saves")):
+    os.makedirs(os.path.join(saves_dir, name))
+    nbt_contents = dict()
+    for x in range(-128, 128):
+        for y in range(-64, 64):
+            value = {
+                "block_type": TAG_Int(0), 
+                "block_data":TAG_Int(0), 
+            }
+            nbt_contents[f"{x},{y}"] = TAG_Compound(value=value)
+    nbt = NBTFile(value=nbt_contents)
+    with open(os.path.join(saves_dir,  name,  "chunks.dat.tempsave.ungzipped"),  "wb") as io:
+        nbt.save(io)
+    with open(os.path.join(saves_dir,  name,  "chunks.dat.tempsave.ungzipped"),  "rb") as ungzipped,  gzip.open(os.path.join(saves_dir,  name,  "chunks.dat"),  "wb") as gzip_out:
+        gzip_out.writelines(ungzipped)
     world = World(name=name, gamemode=gamemode,  saves_dir=saves_dir)
-    world.database.execute("CREATE TABLE IF NOT EXISTS world(block_id INTEGER NOT NULL, block_data INTEGER NOT NULL, x INTEGER NOT NULL, y INTEGER NOT NULL);")
-    world.save()
     return world
 
 def generateSuperflatWorld(name: str = "Superflat World",  gamemode: int = 0,  saves_dir=os.path.join(".mineshaft",  "saves")):
     world = generateBlankWorld()
-    for y in range(0, 128):
-        for x in range(0, 256):
+    for y in range(-64, 64):
+        for x in range(-128, 128):
             if y <= 14:
-                world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (0, 0,x, y))
+                world.world[f"{x},{y}"] = TAG_Compound(value={
+                "block_type": TAG_Int(0), 
+                "block_data":TAG_Int(0), 
+            })
             elif y >= 15 and y <= 17:
-                world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (7, 0,x, y))
+               world.world[f"{x},{y}"] = TAG_Compound(value={
+                "block_type": TAG_Int(7), 
+                "block_data":TAG_Int(0), 
+            })
             elif y > 17:
-                world.database.execute("INSERT INTO world(block_id, block_data, x, y) VALUES(?,?,?,?)",  (1, 0,x, y))
+                world.world[f"{x},{y}"] = TAG_Compound(value={
+                "block_type": TAG_Int(1), 
+                "block_data":TAG_Int(0), 
+            })
     world.save()
     return world
 
 if __name__ == "__main__":
-    generateSuperflatWorld("test.db")
+    generateSuperflatWorld(name="World")
