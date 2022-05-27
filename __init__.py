@@ -68,7 +68,8 @@ def loadWorldFromMap():
 
 
 def generateBlankWorld(name: str = "World", gamemode: int = 0,  saves_dir=os.path.join(".mineshaft",  "saves")):
-    os.makedirs(os.path.join(saves_dir, name))
+    if not os.path.exists(os.path.join(saves_dir, name)):
+        os.makedirs(os.path.join(saves_dir, name))
     nbt_contents = dict()
     for x in range(-128, 128):
         for y in range(-64, 64):
